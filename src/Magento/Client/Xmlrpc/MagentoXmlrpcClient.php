@@ -2,7 +2,6 @@
 
 namespace Magento\Client\Xmlrpc;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Collection;
 
@@ -17,6 +16,14 @@ class MagentoXmlrpcClient extends Client
      * @var \fXmlRpc\Client
      */
     private $client;
+
+    protected $configCollection;
+
+    function __construct(Collection $configCollection)
+    {
+        $this->configCollection = $configCollection;
+        parent::__construct($configCollection->toArray());
+    }
 
     /**
      * {@inheritdoc}
@@ -38,8 +45,10 @@ class MagentoXmlrpcClient extends Client
 
         // Instantiate the Acquia Search plugin.
         $config = Collection::fromConfig($config, $defaults, $required);
-        return new static($config->get('base_url'), $config);
+        return new static($config);
     }
+
+
 
     /**
      * @param bool $autoClose
@@ -68,9 +77,14 @@ class MagentoXmlrpcClient extends Client
     public function getClient()
     {
         if (!isset($this->client)) {
-            $uri = rtrim($this->getConfig('base_url'), '/') . '/api/xmlrpc/';
-            $bridge = new \fXmlRpc\Transport\GuzzleBridge($this);
-            $this->client = new \fXmlRpc\Client($uri, $bridge);
+            $uri = rtrim($this->configCollection->get('base_url'), '/') . '/api/xmlrpc/';
+
+            /** Guzzle 4+ (http://guzzlephp.org/) */
+            $httpClient = new Client();
+            $this->client = new \fXmlRpc\Client(
+                $uri,
+                new \fXmlRpc\Transport\HttpAdapterTransport(new \Ivory\HttpAdapter\GuzzleHttpAdapter($httpClient))
+            );
         }
 
         return $this->client;
@@ -81,15 +95,14 @@ class MagentoXmlrpcClient extends Client
      */
     public function getSession()
     {
-        $session = $this->getConfig('session');
-
+        $session = $this->configCollection->get('session');
         if (!$session) {
             $this->autoCloseSession = true;
             $session = $this->getClient()->call('login', array(
-                $this->getConfig('api_user'),
-                $this->getConfig('api_key')
+                $this->configCollection->get('api_user'),
+                $this->configCollection->get('api_key')
             ));
-            $this->getConfig()->set('session', $session);
+            $this->configCollection->set('session', $session);
         }
 
         return $session;
