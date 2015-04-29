@@ -2,8 +2,9 @@
 
 namespace Magento\Client\Xmlrpc;
 
-use Guzzle\Common\Collection;
-use Guzzle\Service\Client;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Collection;
 
 class MagentoXmlrpcClient extends Client
 {
