@@ -15,7 +15,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "guzzle/guzzle": "~3.0",
+        "guzzle/guzzle": "~5.0",
         "lstrojny/fxmlrpc": ">=0.8,<0.9"
     },
     "require-dev": {
