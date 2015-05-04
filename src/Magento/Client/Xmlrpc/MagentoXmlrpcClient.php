@@ -74,16 +74,15 @@ class MagentoXmlrpcClient extends Client
     /**
      * @return \fXmlRpc\Client
      */
-    public function getClient()
+    public function getClient($configuration = null)
     {
         if (!isset($this->client)) {
             $uri = rtrim($this->configCollection->get('base_url'), '/') . '/api/xmlrpc/';
 
             /** Guzzle 4+ (http://guzzlephp.org/) */
-            $httpClient = new Client();
             $this->client = new \fXmlRpc\Client(
                 $uri,
-                new \fXmlRpc\Transport\HttpAdapterTransport(new \Ivory\HttpAdapter\GuzzleHttpAdapter($httpClient))
+                new \fXmlRpc\Transport\HttpAdapterTransport(new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($this, $configuration))
             );
         }
 
