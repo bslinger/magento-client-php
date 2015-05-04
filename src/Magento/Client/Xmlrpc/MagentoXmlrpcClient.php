@@ -19,6 +19,8 @@ class MagentoXmlrpcClient extends Client
 
     protected $configCollection;
 
+    protected $adapterConfiguration;
+
     function __construct(Collection $configCollection)
     {
         $this->configCollection = $configCollection;
@@ -74,7 +76,7 @@ class MagentoXmlrpcClient extends Client
     /**
      * @return \fXmlRpc\Client
      */
-    public function getClient($configuration = null)
+    public function getClient()
     {
         if (!isset($this->client)) {
             $uri = rtrim($this->configCollection->get('base_url'), '/') . '/api/xmlrpc/';
@@ -82,7 +84,7 @@ class MagentoXmlrpcClient extends Client
             /** Guzzle 4+ (http://guzzlephp.org/) */
             $this->client = new \fXmlRpc\Client(
                 $uri,
-                new \fXmlRpc\Transport\HttpAdapterTransport(new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($this, $configuration))
+                new \fXmlRpc\Transport\HttpAdapterTransport(new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($this, $this->adapterConfiguration))
             );
         }
 
@@ -119,5 +121,21 @@ class MagentoXmlrpcClient extends Client
     {
         $params = array($this->getSession(), $method, $params);
         return $this->getClient()->call('call', $params);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdapterConfiguration()
+    {
+        return $this->adapterConfiguration;
+    }
+
+    /**
+     * @param mixed $adapterConfiguration
+     */
+    public function setAdapterConfiguration($adapterConfiguration)
+    {
+        $this->adapterConfiguration = $adapterConfiguration;
     }
 }
