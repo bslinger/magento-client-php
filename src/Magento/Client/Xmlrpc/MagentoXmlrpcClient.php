@@ -4,6 +4,7 @@ namespace Magento\Client\Xmlrpc;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Collection;
+use Ivory\HttpAdapter\ConfigurationInterface;
 
 class MagentoXmlrpcClient extends Client
 {
@@ -19,6 +20,7 @@ class MagentoXmlrpcClient extends Client
 
     protected $configCollection;
 
+    /** @var  \Ivory\HttpAdapter\ConfigurationInterface */
     protected $adapterConfiguration;
 
     function __construct(Collection $configCollection)
@@ -132,9 +134,9 @@ class MagentoXmlrpcClient extends Client
     }
 
     /**
-     * @param mixed $adapterConfiguration
+     * @param ConfigurationInterface $adapterConfiguration
      */
-    public function setAdapterConfiguration($adapterConfiguration)
+    public function setAdapterConfiguration(ConfigurationInterface $adapterConfiguration)
     {
         $this->adapterConfiguration = $adapterConfiguration;
     }
