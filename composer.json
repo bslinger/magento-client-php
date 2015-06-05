@@ -16,7 +16,7 @@
     "require": {
         "php": ">=5.3.3",
 	    "guzzlehttp/guzzle": "*",
-        "lstrojny/fxmlrpc": "1.0.0-alpha1",
+        "lstrojny/fxmlrpc": "*",
         "egeloen/http-adapter": "*"
     },
     "require-dev": {
