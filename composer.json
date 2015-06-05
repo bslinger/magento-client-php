@@ -15,7 +15,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-	    "guzzlehttp/guzzle": "~5.0",
+	    "guzzlehttp/guzzle": "*",
         "lstrojny/fxmlrpc": "1.0.0-alpha1",
         "egeloen/http-adapter": "*"
     },
@@ -31,5 +31,11 @@
         "psr-0": {
             "Magento\\Client": "src/"
         }
-    }
+    },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/lstrojny/fxmlrpc"
+        }
+    ]
 }
