@@ -86,7 +86,7 @@ class MagentoXmlrpcClient extends Client
             /** Guzzle 4+ (http://guzzlephp.org/) */
             $this->client = new \fXmlRpc\Client(
                 $uri,
-                $this
+                new \fXmlRpc\Transport\HttpAdapterTransport(new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($this))
             );
         }
 
