@@ -71,7 +71,7 @@ class MagentoXmlrpcClient extends Client
     public function __destruct()
     {
         if ($this->autoCloseSession && $this->client) {
-            $this->client->call('endSession', array($this->getConfig('session')));
+            $this->client->call('endSession', array($this->configCollection->get('session')));
         }
     }
 
@@ -86,7 +86,7 @@ class MagentoXmlrpcClient extends Client
             /** Guzzle 4+ (http://guzzlephp.org/) */
             $this->client = new \fXmlRpc\Client(
                 $uri,
-                new \fXmlRpc\Transport\Guzzle4Bridge(new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($this, $this->adapterConfiguration))
+                new \fXmlRpc\Transport\Guzzle4Bridge($this)
             );
         }
 
